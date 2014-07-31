@@ -25,6 +25,6 @@ defmodule Eloido.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{:extwitter, github: "parroty/extwitter"}]
   end
 end
