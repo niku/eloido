@@ -1,5 +1,5 @@
 %{"ex_twitter": {:git, "git://github.com/parroty/extwitter.git", "87344a70d750e4a0b527cd1937cfaf24446cfe83", []},
-  "extwitter": {:git, "git://github.com/parroty/extwitter.git", "87344a70d750e4a0b527cd1937cfaf24446cfe83", []},
+  "extwitter": {:git, "git://github.com/parroty/extwitter.git", "d9b7545deaa8a77e754a3a4baa1e7b102a9b9e56", []},
   "jsex": {:package, "2.0.0"},
   "jsx": {:package, "2.0.4"},
   "oauth": {:git, "git://github.com/tim/erlang-oauth.git", "2ee206ea921722893200a0ad534c6b6130233325", []}}
