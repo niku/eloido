@@ -4,7 +4,7 @@ defmodule Eloido.Mixfile do
   def project do
     [app: :eloido,
      version: "0.0.1",
-     elixir: "~> 0.14.3",
+     elixir: "~> 0.15.1",
      deps: deps]
   end
 
