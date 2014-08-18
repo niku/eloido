@@ -21,11 +21,19 @@ defmodule Eloido do
      {:follow, following_values}] |> Enum.reject(&(elem(&1, 1) |> nil?))
   end
 
+  def validate_filtering_parameter!(parameter) do
+    has_track_or_follow = Keyword.has_key?(parameter, :track) or Keyword.has_key?(parameter, :follow)
+    if !has_track_or_follow, do: raise "At least one of environment variables TRACK or FOLLOW must be set"
+    parameter
+  end
+
   def start do
     ExTwitter.configure(twitter_credential)
-    stream = ExTwitter.stream_filter(filtering_parameter) |>
-      Stream.map(fn(x) -> x.text end) |>
-      Stream.map(fn(x) -> IO.puts "#{x}\n---------------\n" end)
+    stream = filtering_parameter |>
+    validate_filtering_parameter! |>
+    ExTwitter.stream_filter |>
+    Stream.map(fn(x) -> x.text end) |>
+    Stream.map(fn(x) -> IO.puts "#{x}\n---------------\n" end)
     Enum.to_list(stream)
   end
 end
