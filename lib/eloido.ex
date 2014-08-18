@@ -1,4 +1,6 @@
 defmodule Eloido do
+  require Logger
+
   @credential_key "TWITTER_AUTH"
   @tracking_key "TRACK"
   @following_key "FOLLOW"
@@ -17,8 +19,10 @@ defmodule Eloido do
   end
 
   def filtering_parameter do
-    [{:track, tracking_values},
-     {:follow, following_values}] |> Enum.reject(&(elem(&1, 1) |> nil?))
+    parameter = [{:track, tracking_values},
+                 {:follow, following_values}] |> Enum.reject(&(elem(&1, 1) |> nil?))
+    Logger.info("Params for statuses/filter: #{inspect parameter}")
+    parameter
   end
 
   def validate_filtering_parameter!(parameter) do
