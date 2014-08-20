@@ -46,6 +46,7 @@ defmodule Eloido do
     stream = filtering_parameter |>
     validate_filtering_parameter! |>
     ExTwitter.stream_filter |>
+    Stream.reject(&(&1.retweeted)) |>
     Stream.map(fn(x) -> x.text end) |>
     Stream.map(fn(x) -> IO.puts "#{x}\n---------------\n" end)
     Enum.to_list(stream)
