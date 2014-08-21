@@ -34,6 +34,13 @@ defmodule Eloido do
     parameter
   end
 
+  def hook_configurations do
+    configurations = Enum.map(hooking_values,
+                              &(Regex.named_captures(@hooking_value_matcher, elem(&1, 1))))
+    Logger.info("Hook Configurations: #{inspect configurations}")
+    configurations
+  end
+
   def start do
     ExTwitter.configure(twitter_credential)
     stream = filtering_parameter |>
