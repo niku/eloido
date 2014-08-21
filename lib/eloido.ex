@@ -1,4 +1,16 @@
 defmodule Eloido do
+  defmodule HookMatcher do
+    def match?(%{"query" => ""}, _), do: true
+    def match?(%{"query" => query, "user_ids" => user_ids },
+               %{text: text,
+                 user: %{ id_str: id_str }}) do
+      match_query(query, text) or contains_user_id(user_ids, id_str)
+    end
+
+    defp match_query(query, text), do: Regex.compile!(query, "i") |> Regex.match?(text)
+    defp contains_user_id(user_ids, user_id), do: String.contains?(user_ids, user_id)
+  end
+
   require Logger
 
   @credential_key "TWITTER_AUTH"
