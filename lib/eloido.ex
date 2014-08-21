@@ -55,12 +55,14 @@ defmodule Eloido do
 
   def start do
     ExTwitter.configure(twitter_credential)
-    stream = filtering_parameter |>
-    validate_filtering_parameter! |>
-    ExTwitter.stream_filter |>
-    Stream.reject(&(&1.retweeted)) |>
-    Stream.map(fn(x) -> x.text end) |>
-    Stream.map(fn(x) -> IO.puts "#{x}\n---------------\n" end)
-    Enum.to_list(stream)
+    filtering_parameter = filtering_parameter |> validate_filtering_parameter!
+    twitter_stream = ExTwitter.stream_filter(filtering_parameter)
+
+    for hook <- hook_configurations,
+        tweet <- twitter_stream,
+        Stream.reject(tweet, &(&1.retweeted)),
+        HookMatcher.match?(hook, tweet) do
+      IO.puts ~s(#{inspect hook["url"]} : #{tweet.text})
+    end
   end
 end
