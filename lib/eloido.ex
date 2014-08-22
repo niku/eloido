@@ -62,7 +62,12 @@ defmodule Eloido do
         tweet <- twitter_stream,
         not tweet.retweeted,
         HookMatcher.match?(hook, tweet) do
-      IO.puts ~s(#{inspect hook["url"]} : #{tweet.text})
+      message = tweet.text
+      notify(hook["url"], message)
     end
+  end
+
+  def notify(url, message) do
+    IO.puts ~s(#{inspect url} : #{message})
   end
 end
