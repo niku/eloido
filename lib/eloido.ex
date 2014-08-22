@@ -60,7 +60,7 @@ defmodule Eloido do
 
     for hook <- hook_configurations,
         tweet <- twitter_stream,
-        Stream.reject(tweet, &(&1.retweeted)),
+        not tweet.retweeted,
         HookMatcher.match?(hook, tweet) do
       IO.puts ~s(#{inspect hook["url"]} : #{tweet.text})
     end
