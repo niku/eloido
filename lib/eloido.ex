@@ -53,6 +53,17 @@ defmodule Eloido do
     configurations
   end
 
+  def notify(url, message) do
+    case HTTPoison.post(url,
+                        URI.encode_query(%{source: message, format: "html"}),
+                        [{"Content-Type", "application/x-www-form-urlencoded"}]) do
+      %HTTPoison.Response{status_code: 200} ->
+        Logger.debug(~s(Notify succeed url: #{url}, message: #{message}))
+      %HTTPoison.Response{status_code: status_code, body: body} ->
+        Logger.debug(~s(Notify failure url: #{url}, message: #{message}, status: #{status_code}, body: #{body}))
+    end
+  end
+
   def start do
     ExTwitter.configure(twitter_credential)
     filtering_parameter = filtering_parameter |> validate_filtering_parameter!
@@ -65,9 +76,5 @@ defmodule Eloido do
       message = tweet.text
       notify(hook["url"], message)
     end
-  end
-
-  def notify(url, message) do
-    IO.puts ~s(#{inspect url} : #{message})
   end
 end

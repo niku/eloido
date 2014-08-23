@@ -12,7 +12,8 @@ defmodule Eloido.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger,
+                    :httpoison]]
   end
 
   # Dependencies can be hex.pm packages:
@@ -25,6 +26,7 @@ defmodule Eloido.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:extwitter, github: "parroty/extwitter"}]
+    [{:extwitter, github: "parroty/extwitter"},
+     {:httpoison, "~> 0.3"} ]
   end
 end
