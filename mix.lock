@@ -1,5 +1,5 @@
 %{"ex_twitter": {:git, "git://github.com/parroty/extwitter.git", "87344a70d750e4a0b527cd1937cfaf24446cfe83", []},
-  "extwitter": {:git, "git://github.com/parroty/extwitter.git", "d9b7545deaa8a77e754a3a4baa1e7b102a9b9e56", []},
+  "extwitter": {:git, "git://github.com/parroty/extwitter.git", "0a2b3df9bbd5deb98e3112b0d28215197f2751cc", []},
   "hackney": {:package, "0.13.1"},
   "httpoison": {:package, "0.4.1"},
   "idna": {:package, "1.0.1"},

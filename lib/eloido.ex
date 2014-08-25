@@ -67,7 +67,7 @@ defmodule Eloido do
   def start do
     ExTwitter.configure(twitter_credential)
     filtering_parameter = filtering_parameter |> validate_filtering_parameter!
-    twitter_stream = ExTwitter.stream_filter(filtering_parameter)
+    twitter_stream = ExTwitter.stream_filter(filtering_parameter, :infinity)
 
     for hook <- hook_configurations,
         tweet <- twitter_stream,
