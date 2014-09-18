@@ -35,7 +35,7 @@ defmodule Eloido do
 
   def filtering_parameter do
     parameter = [{:track, tracking_values},
-                 {:follow, following_values}] |> Enum.reject(&(elem(&1, 1) |> nil?))
+                 {:follow, following_values}] |> Enum.reject(&(elem(&1, 1) |> is_nil))
     Logger.info("Params for statuses/filter: #{inspect parameter}")
     parameter
   end
