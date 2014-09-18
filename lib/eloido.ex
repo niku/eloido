@@ -71,10 +71,13 @@ defmodule Eloido do
 
     for hook <- hook_configurations,
         tweet <- twitter_stream,
-        not tweet.retweeted,
         HookMatcher.match?(hook, tweet) do
-      message = tweet.text
-      notify(hook["url"], message)
+      if tweet.retweeted do
+        Logger.debug("Skip retweet")
+      else
+        message = tweet.text
+        notify(hook["url"], message)
+      end
     end
   end
 end
