@@ -72,7 +72,10 @@ defmodule Eloido do
     for hook <- hook_configurations,
         tweet <- twitter_stream,
         HookMatcher.match?(hook, tweet) do
-      if tweet.retweeted do
+      # tweet.retweeted remains always false.
+      # So, we use tweet.retweet_count for checking retweet.
+      # see also https://github.com/parroty/extwitter/issues/4
+      if tweet.retweet_count !== 0 do
         Logger.debug("Skip retweet")
       else
         message = tweet.text
