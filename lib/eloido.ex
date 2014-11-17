@@ -57,10 +57,10 @@ defmodule Eloido do
     case HTTPoison.post(url,
                         URI.encode_query(%{source: message, format: "html"}),
                         [{"Content-Type", "application/x-www-form-urlencoded"}]) do
-      %HTTPoison.Response{status_code: 200} ->
+      {:ok, %HTTPoison.Response{status_code: 200}} ->
         Logger.debug(~s(Notify succeed url: #{url}, message: #{message}))
-      %HTTPoison.Response{status_code: status_code, body: body} ->
-        Logger.debug(~s(Notify failure url: #{url}, message: #{message}, status: #{status_code}, body: #{body}))
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        Logger.debug(~s(Notify failure url: #{url}, message: #{message}, reason: #{reason}))
     end
   end
 
