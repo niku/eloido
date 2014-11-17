@@ -82,10 +82,10 @@ defmodule Eloido do
   end
 
   defp retweet?(tweet) do
-    Logger.debug("Retweet count: #{inspect tweet.retweet_count}")
     # tweet.retweeted remains always false.
-    # So, we use tweet.retweet_count for checking retweet.
-    # see also https://github.com/parroty/extwitter/issues/4
-    tweet.retweet_count !== 0
+    # tweet.retweet_count remains always 0.
+    # So, we use tweet.text for checking retweet.
+    Logger.debug(~s(Checking text: #{tweet.text}, retweet?: #{String.starts_with(tweet.text, "RT @")}))
+    String.starts_with(tweet.text, "RT @")
   end
 end
