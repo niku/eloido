@@ -85,7 +85,7 @@ defmodule Eloido do
     # tweet.retweeted remains always false.
     # tweet.retweet_count remains always 0.
     # So, we use tweet.text for checking retweet.
-    Logger.debug(~s(Checking text: #{tweet.text}, retweet?: #{String.starts_with(tweet.text, "RT @")}))
-    String.starts_with(tweet.text, "RT @")
+    Logger.debug(~s(Checking text: #{tweet.text}, retweet?: #{String.starts_with?(tweet.text, "RT @")}))
+    String.starts_with?(tweet.text, "RT @")
   end
 end
