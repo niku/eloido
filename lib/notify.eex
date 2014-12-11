@@ -1,0 +1,11 @@
+<img width="16" height="16" src="<%= user_profile_image_url_https %>">
+&nbsp;
+<b>
+  <a href="<%= url_user %>"><%= user_name %></a>
+</b>
+&nbsp;
+<a href="<%= url_user %>">@<%= user_screen_name %></a>
+<br>
+<%= tweet_text %>
+<br>
+<a href="<%= url_tweet %>"><%= tweet_created_at %></a>

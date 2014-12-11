@@ -75,8 +75,7 @@ defmodule Eloido do
       if retweet?(tweet) do
         Logger.debug("Skip retweet")
       else
-        message = tweet.text
-        notify(hook["url"], message)
+        notify(hook["url"], build_message(tweet))
       end
     end
   end
@@ -87,5 +86,19 @@ defmodule Eloido do
     # So, we use tweet.text for checking retweet.
     Logger.debug(~s(Checking text: #{tweet.text}, retweet?: #{String.starts_with?(tweet.text, "RT @")}))
     String.starts_with?(tweet.text, "RT @")
+  end
+
+  defp build_message(tweet) do
+    user = tweet.user
+    url_user = "https://twitter.com/#{user.screen_name}/status/#{tweet.id_str}"
+    url_tweet = "https://twitter.com/#{user.screen_name}"
+    EEx.eval_file("lib/notify.eex",
+                  user_name: user.name,
+                  user_screen_name: user.screen_name,
+                  user_profile_image_url_https: user.profile_image_url_https,
+                  tweet_created_at: tweet.created_at,
+                  tweet_text: tweet.text,
+                  url_user: url_user,
+                  url_tweet: url_tweet)
   end
 end
