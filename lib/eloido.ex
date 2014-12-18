@@ -96,9 +96,16 @@ defmodule Eloido do
                   user_name: user.name,
                   user_screen_name: user.screen_name,
                   user_profile_image_url_https: user.profile_image_url_https,
-                  tweet_created_at: tweet.created_at,
+                  tweet_created_at: format_time(tweet.created_at),
                   tweet_text: tweet.text,
                   url_user: url_user,
                   url_tweet: url_tweet)
+  end
+
+  defp format_time(twitter_time) do
+    {:ok, datetime} = Timex.DateFormat.parse(twitter_time, "{UNIX}")
+    datetime
+    |> Timex.Timezone.convert(Timex.Timezone.get("Asia/Tokyo"))
+    |> Timex.DateFormat.format!("%Y-%m-%d %T", :strftime)
   end
 end

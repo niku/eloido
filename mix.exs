@@ -27,6 +27,7 @@ defmodule Eloido.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:extwitter, github: "parroty/extwitter"},
-     {:httpoison, "~> 0.3"} ]
+     {:httpoison, "~> 0.3"},
+     {:timex, "~> 0.13.2"}]
   end
 end
