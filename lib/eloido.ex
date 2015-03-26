@@ -90,8 +90,8 @@ defmodule Eloido do
 
   defp build_message(tweet) do
     user = tweet.user
-    url_user = "https://twitter.com/#{user.screen_name}/status/#{tweet.id_str}"
-    url_tweet = "https://twitter.com/#{user.screen_name}"
+    url_user = "https://twitter.com/#{user.screen_name}"
+    url_tweet = "https://twitter.com/#{user.screen_name}/status/#{tweet.id_str}"
     EEx.eval_file("lib/notify.eex",
                   user_name: user.name,
                   user_screen_name: user.screen_name,
