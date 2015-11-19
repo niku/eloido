@@ -30,7 +30,12 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 config :eloido, [
-  twitter: System.get_env("TWITTER_AUTH"),
+  twitter: [
+    consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
+    consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET"),
+    access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
+    access_token_secret: System.get_env("TWITTER_ACCESS_SECRET")
+  ],
   track:   System.get_env("TRACK"),
   follow:  System.get_env("FOLLOW"),
   hook:    System.get_env

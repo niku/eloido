@@ -16,19 +16,9 @@ defmodule Eloido.Twitter do
   @hooking_key ~r/^HOOK/
   @hooking_value_matcher ~r/^(?<url>.+?)(?:@(?<user_ids>[0-9,]+))?(?:#(?<query>.+))?$/
 
-  def credential_values, do: Application.fetch_env!(:eloido, :twitter) |> String.split(":")
   def tracking_values, do: Application.fetch_env!(:eloido, :track)
   def following_values, do: Application.fetch_env!(:eloido, :follow)
   def hooking_values, do: Application.fetch_env!(:eloido, :hook) |> Enum.filter(&elem(&1, 0) |> String.match?(@hooking_key))
-
-  def twitter_credential do
-    ~w(
-      consumer_key
-      consumer_secret
-      access_token
-      access_token_secret
-    )a |> Enum.zip(credential_values)
-  end
 
   def filtering_parameter do
     parameter = [{:track, tracking_values},
@@ -62,6 +52,7 @@ defmodule Eloido.Twitter do
   end
 
   def start do
+    twitter_credential = Application.fetch_env!(:eloido, :twitter)
     ExTwitter.configure(twitter_credential)
     filtering_parameter = filtering_parameter |> validate_filtering_parameter!
     twitter_stream = ExTwitter.stream_filter(filtering_parameter, :infinity)
