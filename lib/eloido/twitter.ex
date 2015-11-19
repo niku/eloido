@@ -13,16 +13,13 @@ defmodule Eloido.Twitter do
 
   require Logger
 
-  @credential_key "TWITTER_AUTH"
-  @tracking_key "TRACK"
-  @following_key "FOLLOW"
   @hooking_key ~r/^HOOK/
   @hooking_value_matcher ~r/^(?<url>.+?)(?:@(?<user_ids>[0-9,]+))?(?:#(?<query>.+))?$/
 
-  def credential_values, do: System.get_env(@credential_key) |> String.split(":")
-  def tracking_values, do: System.get_env(@tracking_key)
-  def following_values, do: System.get_env(@following_key)
-  def hooking_values, do: System.get_env |> Enum.filter(&elem(&1, 0) |> String.match?(@hooking_key))
+  def credential_values, do: Application.fetch_env!(:eloido, :twitter) |> String.split(":")
+  def tracking_values, do: Application.fetch_env!(:eloido, :track)
+  def following_values, do: Application.fetch_env!(:eloido, :follow)
+  def hooking_values, do: Application.fetch_env!(:eloido, :hook) |> Enum.filter(&elem(&1, 0) |> String.match?(@hooking_key))
 
   def twitter_credential do
     ~w(

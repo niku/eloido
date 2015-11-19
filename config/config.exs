@@ -28,3 +28,10 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+config :eloido, [
+  twitter: System.get_env("TWITTER_AUTH"),
+  track:   System.get_env("TRACK"),
+  follow:  System.get_env("FOLLOW"),
+  hook:    System.get_env
+]
