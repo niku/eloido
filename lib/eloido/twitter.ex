@@ -13,10 +13,7 @@ defmodule Eloido.Twitter do
 
   require Logger
 
-  @hooking_key ~r/^HOOK/
   @hooking_value_matcher ~r/^(?<url>.+?)(?:@(?<user_ids>[0-9,]+))?(?:#(?<query>.+))?$/
-
-  def hooking_values, do: Application.fetch_env!(:eloido, :hook) |> Enum.filter(&elem(&1, 0) |> String.match?(@hooking_key))
 
   def filtering_parameter("", ""), do: raise "At least one of environment variables TRACK or FOLLOW must be set"
   def filtering_parameter(tracking_values, ""), do: filtering_parameter(track: tracking_values)
@@ -27,7 +24,7 @@ defmodule Eloido.Twitter do
     parameter
   end
 
-  def hook_configurations do
+  def hook_configurations(hooking_values) do
     configurations = Enum.map(hooking_values,
                               &(Regex.named_captures(@hooking_value_matcher, elem(&1, 1))))
     Logger.info("Hook Configurations: #{inspect configurations}")
@@ -49,12 +46,13 @@ defmodule Eloido.Twitter do
     twitter_credential = Application.fetch_env!(:eloido, :twitter)
     tracking_values = Application.fetch_env!(:eloido, :track) || ""
     following_values = Application.fetch_env!(:eloido, :follow) || ""
+    hooking_values = Application.fetch_env!(:eloido, :hook)
 
     ExTwitter.configure(twitter_credential)
     filtering_parameter = filtering_parameter(tracking_values, following_values)
     twitter_stream = ExTwitter.stream_filter(filtering_parameter, :infinity)
 
-    for hook <- hook_configurations,
+    for hook <- hook_configurations(hooking_values),
     tweet <- twitter_stream,
     HookMatcher.match?(hook, tweet) do
       if retweet?(tweet) do

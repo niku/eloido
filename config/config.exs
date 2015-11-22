@@ -38,5 +38,5 @@ config :eloido, [
   ],
   track:   System.get_env("TRACK"),
   follow:  System.get_env("FOLLOW"),
-  hook:    System.get_env
+  hook:    System.get_env |> Enum.filter(fn {k,_v} -> String.match?(k, ~r/^HOOK_/) end) |> Enum.into(%{})
 ]
