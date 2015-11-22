@@ -18,9 +18,9 @@ defmodule Eloido.Twitter do
 
   def hooking_values, do: Application.fetch_env!(:eloido, :hook) |> Enum.filter(&elem(&1, 0) |> String.match?(@hooking_key))
 
-  def filtering_parameter(nil, nil), do: raise "At least one of environment variables TRACK or FOLLOW must be set"
-  def filtering_parameter(tracking_values, nil), do: filtering_parameter(track: tracking_values)
-  def filtering_parameter(nil, following_values), do: filtering_parameter(follow: following_values)
+  def filtering_parameter("", ""), do: raise "At least one of environment variables TRACK or FOLLOW must be set"
+  def filtering_parameter(tracking_values, ""), do: filtering_parameter(track: tracking_values)
+  def filtering_parameter("", following_values), do: filtering_parameter(follow: following_values)
   def filtering_parameter(tracking_values, following_values), do: filtering_parameter(track: tracking_values, follow: following_values)
   defp filtering_parameter(parameter) do
     Logger.info("Params for statuses/filter: #{inspect parameter}")
@@ -47,8 +47,8 @@ defmodule Eloido.Twitter do
 
   def start do
     twitter_credential = Application.fetch_env!(:eloido, :twitter)
-    tracking_values = Application.fetch_env!(:eloido, :track)
-    following_values = Application.fetch_env!(:eloido, :follow)
+    tracking_values = Application.fetch_env!(:eloido, :track) || ""
+    following_values = Application.fetch_env!(:eloido, :follow) || ""
 
     ExTwitter.configure(twitter_credential)
     filtering_parameter = filtering_parameter(tracking_values, following_values)
