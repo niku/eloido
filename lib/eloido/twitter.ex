@@ -15,12 +15,15 @@ defmodule Eloido.Twitter do
 
   @hooking_value_matcher ~r/^(?<url>.+?)(?:@(?<user_ids>[0-9,]+))?(?:#(?<query>.+))?$/
 
-  def build_stream_parameter("", ""), do: raise "At least one of environment variables TRACK or FOLLOW must be set"
+  def build_stream_parameter("", ""), do: build_stream_parameter([])
   def build_stream_parameter(tracking_values, ""), do: build_stream_parameter(track: tracking_values)
   def build_stream_parameter("", following_values), do: build_stream_parameter(follow: following_values)
   def build_stream_parameter(tracking_values, following_values), do: build_stream_parameter(track: tracking_values, follow: following_values)
   defp build_stream_parameter(parameter) do
     Logger.info("Params for statuses/filter: #{inspect parameter}")
+    if Enum.empty?(parameter) do
+      Logger.warn("At least one of environment variables TRACK or FOLLOW must be setted")
+    end
     parameter
   end
 
