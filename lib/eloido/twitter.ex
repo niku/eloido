@@ -49,8 +49,8 @@ defmodule Eloido.Twitter do
     hooking_values = Application.fetch_env!(:eloido, :hook)
 
     ExTwitter.configure(twitter_credential)
-    filtering_parameter = build_stream_parameter(tracking_values, following_values)
-    twitter_stream = ExTwitter.stream_filter(filtering_parameter, :infinity)
+    stream_parameter = build_stream_parameter(tracking_values, following_values)
+    twitter_stream = ExTwitter.stream_filter(stream_parameter, :infinity)
 
     for hook <- hook_configurations(hooking_values),
     tweet <- twitter_stream,
