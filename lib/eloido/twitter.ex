@@ -15,11 +15,11 @@ defmodule Eloido.Twitter do
 
   @hooking_value_matcher ~r/^(?<url>.+?)(?:@(?<user_ids>[0-9,]+))?(?:#(?<query>.+))?$/
 
-  def filtering_parameter("", ""), do: raise "At least one of environment variables TRACK or FOLLOW must be set"
-  def filtering_parameter(tracking_values, ""), do: filtering_parameter(track: tracking_values)
-  def filtering_parameter("", following_values), do: filtering_parameter(follow: following_values)
-  def filtering_parameter(tracking_values, following_values), do: filtering_parameter(track: tracking_values, follow: following_values)
-  defp filtering_parameter(parameter) do
+  def build_stream_parameter("", ""), do: raise "At least one of environment variables TRACK or FOLLOW must be set"
+  def build_stream_parameter(tracking_values, ""), do: build_stream_parameter(track: tracking_values)
+  def build_stream_parameter("", following_values), do: build_stream_parameter(follow: following_values)
+  def build_stream_parameter(tracking_values, following_values), do: build_stream_parameter(track: tracking_values, follow: following_values)
+  defp build_stream_parameter(parameter) do
     Logger.info("Params for statuses/filter: #{inspect parameter}")
     parameter
   end
@@ -49,7 +49,7 @@ defmodule Eloido.Twitter do
     hooking_values = Application.fetch_env!(:eloido, :hook)
 
     ExTwitter.configure(twitter_credential)
-    filtering_parameter = filtering_parameter(tracking_values, following_values)
+    filtering_parameter = build_stream_parameter(tracking_values, following_values)
     twitter_stream = ExTwitter.stream_filter(filtering_parameter, :infinity)
 
     for hook <- hook_configurations(hooking_values),
