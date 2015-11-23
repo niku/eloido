@@ -55,7 +55,9 @@ defmodule Eloido.Twitter do
     stream_parameter = build_stream_parameter(tracking_values, following_values)
     twitter_stream = ExTwitter.stream_filter(stream_parameter, :infinity)
 
-    for hook <- hook_configurations(hooking_values),
+    hooks = hook_configurations(hooking_values)
+
+    for hook <- hooks,
     tweet <- twitter_stream,
     HookMatcher.match?(hook, tweet) do
       if retweet?(tweet) do
