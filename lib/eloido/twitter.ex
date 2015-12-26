@@ -1,16 +1,4 @@
 defmodule Eloido.Twitter do
-  defmodule HookMatcher do
-    def match?(%{"query" => ""}, _), do: true
-    def match?(%{"query" => query, "user_ids" => user_ids },
-               %{text: text,
-                 user: %{ id_str: id_str }}) do
-      match_query(query, text) or contains_user_id(user_ids, id_str)
-    end
-
-    defp match_query(query, text), do: Regex.compile!(query, "i") |> Regex.match?(text)
-    defp contains_user_id(user_ids, user_id), do: String.contains?(user_ids, user_id)
-  end
-
   require Logger
 
   @hooking_value_matcher ~r/^(?<url>.+?)(?:@(?<user_ids>[0-9,]+))?(?:#(?<query>.+))?$/
