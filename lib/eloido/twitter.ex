@@ -99,4 +99,16 @@ defmodule Eloido.Twitter do
   def parse_twitter_time(twitter_time) do
     Timex.DateFormat.parse!(twitter_time, "{WDshort} {Mshort} {D} {ISOtime} {Z} {YYYY}")
   end
+
+  @doc """
+  Builds url of a user which posts a tweet.
+
+  ## Examples
+
+  iex> Eloido.Twitter.build_user_url(%ExTwitter.Model.Tweet{user: %ExTwitter.Model.User{screen_name: "foo"}})
+  "https://twitter.com/foo"
+
+  """
+  @spec build_user_url(%ExTwitter.Model.Tweet{}) :: String.t
+  def build_user_url(%ExTwitter.Model.Tweet{user: %ExTwitter.Model.User{screen_name: screen_name}}), do: "https://twitter.com/#{screen_name}"
 end
