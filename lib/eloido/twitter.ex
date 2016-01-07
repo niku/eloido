@@ -111,4 +111,16 @@ defmodule Eloido.Twitter do
   """
   @spec build_user_url(%ExTwitter.Model.Tweet{}) :: String.t
   def build_user_url(%ExTwitter.Model.Tweet{user: %ExTwitter.Model.User{screen_name: screen_name}}), do: "https://twitter.com/#{screen_name}"
+
+  @doc """
+  Builds url of a tweet.
+
+  ## Examples
+
+  iex> Eloido.Twitter.build_tweet_url(%ExTwitter.Model.Tweet{id_str: "12345", user: %ExTwitter.Model.User{screen_name: "foo"}})
+  "https://twitter.com/foo/status/12345"
+
+  """
+  @spec build_tweet_url(%ExTwitter.Model.Tweet{}) :: String.t
+  def build_tweet_url(%ExTwitter.Model.Tweet{id_str: id, user: %ExTwitter.Model.User{screen_name: screen_name}}), do: "https://twitter.com/#{screen_name}/status/#{id}"
 end
