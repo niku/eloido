@@ -15,7 +15,8 @@ defmodule Eloido.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger,
-                    :httpoison],
+                    :httpoison,
+                    :timex],
      mod: {Eloido, []}]
   end
 
