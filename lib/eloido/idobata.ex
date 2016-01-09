@@ -8,7 +8,7 @@ defmodule Eloido.Idobata do
   """
   @spec build_content(%ExTwitter.Model.Tweet{}) :: String.t
   def build_content(tweet = %ExTwitter.Model.Tweet{}) do
-    created_at = Eloido.Twitter.parse_twitter_time(tweet.created_at)
+    created_at = Eloido.Twitter.Tweet.parse_twitter_time(tweet.created_at)
     |> Timex.Timezone.convert(Timex.Timezone.get("Asia/Tokyo"))
     |> Timex.DateFormat.format!("%Y-%m-%d %T", :strftime)
 

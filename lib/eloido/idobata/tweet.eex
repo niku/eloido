@@ -1,11 +1,11 @@
 <img width="16" height="16" src="<%= tweet.user.profile_image_url_https %>">
 &nbsp;
 <b>
-  <a href="<%= Eloido.Twitter.build_user_url(tweet) %>"><%= tweet.user.name %></a>
+  <a href="<%= Eloido.Twitter.Tweet.build_user_url(tweet) %>"><%= tweet.user.name %></a>
 </b>
 &nbsp;
-<a href="<%= Eloido.Twitter.build_user_url(tweet) %>">@<%= tweet.user.screen_name %></a>
+<a href="<%= Eloido.Twitter.Tweet.build_user_url(tweet) %>">@<%= tweet.user.screen_name %></a>
 <br>
 <%= tweet.text %>
 <br>
-<a href="<%= Eloido.Twitter.build_tweet_url(tweet) %>"><%= created_at %></a>
+<a href="<%= Eloido.Twitter.Tweet.build_tweet_url(tweet) %>"><%= created_at %></a>
