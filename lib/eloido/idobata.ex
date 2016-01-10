@@ -14,4 +14,18 @@ defmodule Eloido.Idobata do
 
     EEx.eval_file("lib/eloido/idobata/tweet.eex", tweet: tweet, created_at: created_at)
   end
+
+  @doc """
+  Posts to idobata.io as a Custom Webhook
+  """
+  def post(endpoint, %Eloido.Idobata.Hook{} = hook) do
+    case HTTPoison.post(endpoint,
+                        Eloido.Idobata.Hook.encode_query(hook),
+                        [{"Content-Type", "application/x-www-form-urlencoded"}]) do
+      {:ok, %HTTPoison.Response{status_code: 200}} ->
+        Logger.debug(~s(Notify succeed url: #{endpoint}, message: #{message}))
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        Logger.debug(~s(Notify failure url: #{endpoint}, message: #{message}, reason: #{reason}))
+    end
+  end
 end
