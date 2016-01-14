@@ -3,6 +3,8 @@ defmodule Eloido.Idobata do
   Convenience functions for Idobata.
   """
 
+  require Logger
+
   @doc """
   Builds a content from a tweet.
   """
@@ -18,14 +20,14 @@ defmodule Eloido.Idobata do
   @doc """
   Posts to idobata.io as a Custom Webhook
   """
-  def post(endpoint, %Eloido.Idobata.Hook{} = hook) do
+  def post(%Eloido.Idobata.Hook{endpoint: endpoint} = hook) do
     case HTTPoison.post(endpoint,
                         Eloido.Idobata.Hook.encode_query(hook),
                         [{"Content-Type", "application/x-www-form-urlencoded"}]) do
       {:ok, %HTTPoison.Response{status_code: 200}} ->
-        Logger.debug(~s(Notify succeed url: #{endpoint}, message: #{message}))
+        Logger.debug(~s(Notify succeed endpoint: #{endpoint}, source: #{hook.source}))
       {:error, %HTTPoison.Error{reason: reason}} ->
-        Logger.debug(~s(Notify failure url: #{endpoint}, message: #{message}, reason: #{reason}))
+        Logger.debug(~s(Notify failure endpoint: #{endpoint}, source: #{hook.source}, reason: #{reason}))
     end
   end
 end
