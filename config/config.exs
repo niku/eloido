@@ -30,6 +30,7 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 config :eloido, [
+  debug: System.get_env("DEBUG"),
   twitter: [
     consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
     consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET"),
