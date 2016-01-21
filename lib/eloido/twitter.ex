@@ -24,7 +24,7 @@ defmodule Eloido.Twitter do
     !Eloido.Twitter.Tweet.retweet?(tweet) do
       content = Eloido.Idobata.build_content(tweet)
       idobata_custom_hook = %Eloido.Idobata.Hook{endpoint: hook.url, source: content, format: :html}
-      Task.start(do_post.(idobata_custom_hook))
+      Task.start(fn -> do_post.(idobata_custom_hook) end)
     end
 
     do_streaming(twitter_stream, hooks, do_post)
