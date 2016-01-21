@@ -12,7 +12,7 @@ defmodule Eloido.Twitter do
     ExTwitter.configure(twitter_credential)
     twitter_stream = Eloido.Twitter.StreamingParameter.build(track, follow) |> ExTwitter.stream_filter
     hooks = Enum.map(hook, &Eloido.Twitter.Hook.parse/1)
-    do_post = if debug, do: &IO.puts/2, else: &Eloido.Idobata.post/1
+    do_post = if debug, do: &(Logger.debug(&1.source)), else: &Eloido.Idobata.post/1
 
     do_streaming(twitter_stream, hooks, do_post)
   end
