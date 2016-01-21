@@ -20,8 +20,8 @@ defmodule Eloido.Twitter do
   defp do_streaming(twitter_stream, hooks, do_post) do
     for tweet <- twitter_stream,
     hook <- hooks,
-    Hook.match_tweet?(hook, tweet),
-    !Tweet.retweet?(tweet) do
+    Eloido.Twitter.Hook.match_tweet?(hook, tweet),
+    !Eloido.Twitter.Tweet.retweet?(tweet) do
       content = Eloido.Idobata.build_content(tweet)
       idobata_custom_hook = %Eloido.Idobata.Hook{endpoint: hook.url, source: content, format: :html}
       Task.start(do_post.(idobata_custom_hook))
