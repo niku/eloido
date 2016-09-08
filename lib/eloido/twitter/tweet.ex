@@ -20,9 +20,9 @@ defmodule Eloido.Twitter.Tweet do
     timezone: %Timex.TimezoneInfo{abbreviation: "UTC", from: :min, full_name: "UTC", offset_std: 0, offset_utc: 0, until: :max}, year: 2008}
 
   """
-  @spec parse_twitter_time(String.t) :: %Timex.DateTime{}
+  # @spec parse_twitter_time(String.t) :: %Timex.DateTime{}
   def parse_twitter_time(twitter_time) do
-    Timex.DateFormat.parse!(twitter_time, "{WDshort} {Mshort} {D} {ISOtime} {Z} {YYYY}")
+    # Timex.DateFormat.parse!(twitter_time, "{WDshort} {Mshort} {D} {ISOtime} {Z} {YYYY}")
   end
 
   @doc """
