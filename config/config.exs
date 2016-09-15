@@ -31,13 +31,17 @@ use Mix.Config
 
 config :eloido, [
   debug: System.get_env("DEBUG"),
+  hooks: System.get_env |> Enum.filter(fn {k,_v} -> String.match?(k, ~r/^HOOK_/) end),
   twitter: [
-    consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
-    consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET"),
-    access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
-    access_token_secret: System.get_env("TWITTER_ACCESS_SECRET")
-  ],
-  track:   System.get_env("TRACK"),
-  follow:  System.get_env("FOLLOW"),
-  hook:    System.get_env |> Enum.filter(fn {k,_v} -> String.match?(k, ~r/^HOOK_/) end) |> Enum.into(%{})
+    oauth_token: [
+      consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
+      consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET"),
+      access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
+      access_token_secret: System.get_env("TWITTER_ACCESS_SECRET")
+    ],
+    streaming_parameter: [
+      follow:  System.get_env("FOLLOW"),
+      track:   System.get_env("TRACK")
+    ]
+  ]
 ]

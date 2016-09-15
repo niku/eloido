@@ -16,7 +16,8 @@ defmodule Eloido.Mixfile do
   def application do
     [applications: [:logger,
                     :httpoison,
-                    :timex],
+                    :timex,
+                    :extwitter],
      mod: {Eloido, []}]
   end
 
@@ -31,7 +32,7 @@ defmodule Eloido.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:extwitter, github: "parroty/extwitter"},
-     {:httpoison, []},
-     {:timex, []}]
+     {:httpoison, ">= 0.9.0"},
+     {:timex, ">= 3.0.0"}]
   end
 end
