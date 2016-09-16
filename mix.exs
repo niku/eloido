@@ -17,7 +17,9 @@ defmodule Eloido.Mixfile do
     [applications: [:logger,
                     :httpoison,
                     :timex,
-                    :extwitter],
+                    :extwitter,
+                    :cowboy,
+                    :plug],
      mod: {Eloido, []}]
   end
 
@@ -33,6 +35,8 @@ defmodule Eloido.Mixfile do
   defp deps do
     [{:extwitter, github: "parroty/extwitter"},
      {:httpoison, ">= 0.9.0"},
-     {:timex, ">= 3.0.0"}]
+     {:timex, ">= 3.0.0"},
+     {:cowboy, "~> 1.0.0"},
+     {:plug, "~> 1.0"}]
   end
 end
