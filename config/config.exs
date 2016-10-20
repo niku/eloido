@@ -43,5 +43,13 @@ config :eloido, [
       follow:  System.get_env("FOLLOW"),
       track:   System.get_env("TRACK")
     ]
+  ],
+  idobata: [
+    api_token: System.get_env("IDOBATA_API_TOKEN"),
+    pusher_key: System.get_env("IDOBATA_PUSHER_KEY") || "44ffe67af1c7035be764",
+    pusher_protocol_version: System.get_env("IDOBATA_PUSHER_PROTOCOL_VERSION") || 7,
+    user_agent: System.get_env("IDOBATA_USER_AGENT") || "eloido / v0.1.0",
+    seed_url: System.get_env("IDOBATA_SEED_URL") || "https://idobata.io/api/seed",
+    auth_url: System.get_env("IDOBATA_AUTH_URL") || "https://idobata.io/pusher/auth"
   ]
 ]

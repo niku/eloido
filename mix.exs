@@ -37,6 +37,7 @@ defmodule Eloido.Mixfile do
      {:httpoison, ">= 0.9.0"},
      {:timex, ">= 3.0.0"},
      {:cowboy, "~> 1.0.0"},
-     {:plug, "~> 1.0"}]
+     {:plug, "~> 1.0"},
+     {:socket, "~> 0.3.5"}]
   end
 end
