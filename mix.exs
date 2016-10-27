@@ -38,6 +38,6 @@ defmodule Eloido.Mixfile do
      {:timex, ">= 3.0.0"},
      {:cowboy, "~> 1.0.0"},
      {:plug, "~> 1.0"},
-     {:socket, "~> 0.3.5"}]
+     {:socket, github: "meh/elixir-socket"}]
   end
 end
