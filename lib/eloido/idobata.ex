@@ -42,8 +42,20 @@ defmodule Eloido.Idobata do
       loop_func = fn f ->
         case Socket.Web.recv!(websocket) do
           {:text, json} ->
-            # TODO ここで GenEvent.notify(idobata_event_manager ... する
-            IO.inspect Poison.decode!(json)
+            case Poison.decode!(json) do
+              %{"event" => "message_created"} ->
+                # Do Nothing
+                # http://blog.idobata.io/post/115181024997
+                # The message sended from idobata.io is just for a backward compatibility.
+                nil
+              message = %{"data" => data} ->
+                # Recived value on the "data" key is just json string. (double encoded)
+                # see https://pusher.com/docs/pusher_protocol#double-encoding
+                decoded_data = Poison.decode!(data)
+                GenEvent.notify(idobata_event_manager, %{message | "data" => decoded_data})
+              message ->
+                GenEvent.notify(idobata_event_manager, message)
+            end
           {:ping, cookie} ->
             IO.inspect "ping received"
             Socket.Web.pong!(websocket, cookie)

@@ -13,7 +13,7 @@ defmodule Eloido do
       # Define workers and child supervisors to be supervised
       # worker(Eloido.Worker, [arg1, arg2, arg3]),
       worker(Eloido.Worker, []),
-      worker(GenEvent, [], name: @idobata_event_manager),
+      worker(GenEvent, [[name: @idobata_event_manager]]),
       worker(Eloido.Idobata, [@idobata_event_manager]),
       Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
     ]
