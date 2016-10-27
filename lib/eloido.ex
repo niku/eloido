@@ -14,7 +14,7 @@ defmodule Eloido do
       # worker(Eloido.Worker, [arg1, arg2, arg3]),
       worker(Eloido.Worker, []),
       worker(GenEvent, [[name: @idobata_event_manager]]),
-      worker(Eloido.Idobata, [@idobata_event_manager]),
+      worker(Eloido.Idobata.Connection, [@idobata_event_manager]),
       worker(Eloido.Idobata.Plugins.Logger, [@idobata_event_manager]),
       Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
     ]
