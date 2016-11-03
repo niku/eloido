@@ -8,11 +8,10 @@ defmodule Eloido do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-
     children = [
       # Define workers and child supervisors to be supervised
       # worker(Eloido.Worker, [arg1, arg2, arg3]),
-      worker(Eloido.Worker, []),
+      worker(Eloido.Twitter.Connection, []),
       worker(GenEvent, [[name: @idobata_event_manager]]),
       worker(Eloido.Idobata.Connection, [@idobata_event_manager]),
       worker(Eloido.Idobata.Plugins.Logger, [@idobata_event_manager]),

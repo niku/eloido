@@ -1,11 +1,11 @@
-defmodule Eloido.Worker do
+defmodule Eloido.Twitter.Connection do
   use GenServer
   require Logger
 
   defmodule Config, do: defstruct debug: false, twitter: nil, hooks: nil
 
   def start_link do
-    config = %Eloido.Worker.Config{
+    config = %Config{
       debug: Application.fetch_env!(:eloido, :debug) === "true",
       twitter: Application.fetch_env!(:eloido, :twitter),
       hooks: Enum.map(Application.fetch_env!(:eloido, :hooks), &Eloido.Hook.parse/1)
@@ -13,7 +13,7 @@ defmodule Eloido.Worker do
     GenServer.start_link(__MODULE__, config, name: __MODULE__)
   end
 
-  def init(config = %Eloido.Worker.Config{}) do
+  def init(config = %Config{}) do
     Logger.info("init")
     {:ok, stream} = do_start_stream(config)
     {:ok, {config, stream}}
@@ -24,7 +24,7 @@ defmodule Eloido.Worker do
     {:noreply, state}
   end
 
-  defp do_start_stream(%Eloido.Worker.Config{twitter: twitter, hooks: hooks}) do
+  defp do_start_stream(%Config{twitter: twitter, hooks: hooks}) do
     Logger.info("start twitter stream")
     me = self
     Task.start_link(fn ->
