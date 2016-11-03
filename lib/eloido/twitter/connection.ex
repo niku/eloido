@@ -8,7 +8,7 @@ defmodule Eloido.Twitter.Connection do
     config = %Config{
       debug: Application.fetch_env!(:eloido, :debug) === "true",
       twitter: Application.fetch_env!(:eloido, :twitter),
-      hooks: Enum.map(Application.fetch_env!(:eloido, :hooks), &Eloido.Hook.parse/1)
+      hooks: Enum.map(Application.fetch_env!(:eloido, :hooks), &Eloido.Twitter.Hook.parse/1)
     }
     GenServer.start_link(__MODULE__, config, name: __MODULE__)
   end
@@ -39,7 +39,7 @@ defmodule Eloido.Twitter.Connection do
       for tweet <- ExTwitter.stream_filter(param, :infinity),
           is_nil(tweet.retweeted_status),
           hook <- hooks,
-          Eloido.Hook.match_tweet?(hook, tweet) do
+          Eloido.Twitter.Hook.match_tweet?(hook, tweet) do
         send(me, {hook.url, tweet})
       end
     end)
