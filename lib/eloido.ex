@@ -1,8 +1,6 @@
 defmodule Eloido do
   use Application
 
-  @idobata_event_manager Eloido.Idobata.EventManager
-
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -12,9 +10,7 @@ defmodule Eloido do
       # Define workers and child supervisors to be supervised
       # worker(Eloido.Worker, [arg1, arg2, arg3]),
       supervisor(Eloido.Twitter, []),
-      worker(GenEvent, [[name: @idobata_event_manager]]),
-      worker(Eloido.Idobata.Connection, [@idobata_event_manager]),
-      worker(Eloido.Idobata.Plugins.Logger, [@idobata_event_manager]),
+      supervisor(Eloido.Idobata, []),
       Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
     ]
 
