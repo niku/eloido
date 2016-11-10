@@ -31,7 +31,6 @@ use Mix.Config
 
 config :eloido, [
   debug: System.get_env("DEBUG"),
-  hooks: System.get_env |> Enum.filter(fn {k,_v} -> String.match?(k, ~r/^HOOK_/) end),
   twitter: [
     oauth_token: [
       consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
@@ -42,7 +41,8 @@ config :eloido, [
     streaming_parameter: [
       follow:  System.get_env("FOLLOW"),
       track:   System.get_env("TRACK")
-    ]
+    ],
+    hooks: System.get_env |> Enum.filter(fn {k,_v} -> String.match?(k, ~r/^HOOK_/) end),
   ],
   idobata: [
     api_token: System.get_env("IDOBATA_API_TOKEN"),
