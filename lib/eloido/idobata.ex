@@ -3,14 +3,14 @@ defmodule Eloido.Idobata do
 
   @idobata_event_manager Eloido.Idobata.EventManager
 
-  def start_link do
-    Supervisor.start_link(__MODULE__, [])
+  def start_link(%{} = config) do
+    Supervisor.start_link(__MODULE__, config)
   end
 
-  def init([]) do
+  def init(%{} = config) do
     children = [
       worker(GenEvent, [[name: @idobata_event_manager]]),
-      worker(Eloido.Idobata.Connection, [@idobata_event_manager]),
+      worker(Eloido.Idobata.Connection, [Map.put(config, :idobata_event_manager, @idobata_event_manager)]),
       worker(Eloido.Idobata.Plugins.Logger, [@idobata_event_manager]),
     ]
     opts = [strategy: :one_for_one]

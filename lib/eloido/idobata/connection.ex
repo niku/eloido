@@ -1,28 +1,5 @@
 defmodule Eloido.Idobata.Connection do
-  defmodule Config do
-    @keys ~w(
-      api_token
-      pusher_key
-      pusher_protocol_version
-      user_agent
-      seed_url
-      auth_url
-    )a
-
-    @enforce_keys @keys
-    defstruct @keys
-  end
-
-  def start_link(idobata_event_manager) do
-    idobata_config = Application.fetch_env!(:eloido, :idobata)
-    config = %Eloido.Idobata.Connection.Config{
-      api_token: idobata_config[:api_token],
-      pusher_key: idobata_config[:pusher_key],
-      pusher_protocol_version: idobata_config[:pusher_protocol_version],
-      user_agent: idobata_config[:user_agent],
-      seed_url: idobata_config[:seed_url],
-      auth_url: idobata_config[:auth_url]
-    }
+  def start_link(%{} = config) do
     channel_name = get_channel_name_from_idobata_seed(config)
 
     websocket = connect_to_pusher(config)
@@ -45,9 +22,9 @@ defmodule Eloido.Idobata.Connection do
                 # Recived value on the "data" key is just json string. (double encoded)
                 # see https://pusher.com/docs/pusher_protocol#double-encoding
                 decoded_data = Poison.decode!(data)
-                GenEvent.notify(idobata_event_manager, %{message | "data" => decoded_data})
+                GenEvent.notify(config[:idobata_event_manager], %{message | "data" => decoded_data})
               message ->
-                GenEvent.notify(idobata_event_manager, message)
+                GenEvent.notify(config[:idobata_event_manager], message)
             end
           {:ping, cookie} ->
             IO.inspect "ping received"
@@ -60,13 +37,13 @@ defmodule Eloido.Idobata.Connection do
     end)
   end
 
-  def get_channel_name_from_idobata_seed(%Config{seed_url: seed_url, api_token: api_token, user_agent: user_agent}) do
+  def get_channel_name_from_idobata_seed(%{seed_url: seed_url, api_token: api_token, user_agent: user_agent}) do
     %{body: json} = HTTPoison.get!(seed_url, "X-API-Token": api_token, "User-Agent": user_agent)
     Poison.decode!(json)
     |> get_in(["records", "bot", "channel_name"])
   end
 
-  def connect_to_pusher(%Config{pusher_key: pusher_key, pusher_protocol_version: pusher_protocol_version}) do
+  def connect_to_pusher(%{pusher_key: pusher_key, pusher_protocol_version: pusher_protocol_version}) do
     path = "/app/#{pusher_key}?protocol=#{pusher_protocol_version}"
     Socket.Web.connect!("ws.pusherapp.com", secure: true, path: path)
   end
@@ -79,7 +56,7 @@ defmodule Eloido.Idobata.Connection do
     |> Access.get("socket_id")
   end
 
-  def get_auth_and_channel_data_from_idobata_auth(%Config{auth_url: auth_url, api_token: api_token, user_agent: user_agent}, socket_id, channel_name) do
+  def get_auth_and_channel_data_from_idobata_auth(%{auth_url: auth_url, api_token: api_token, user_agent: user_agent}, socket_id, channel_name) do
     %{body: json} = HTTPoison.post!(auth_url, {:form, socket_id: socket_id, channel_name: channel_name}, "X-API-Token": api_token, "User-Agent": user_agent)
     decoded = Poison.decode!(json)
     {Access.get(decoded, "auth"), Access.get(decoded, "channel_data")}

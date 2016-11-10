@@ -10,7 +10,7 @@ defmodule Eloido do
       # Define workers and child supervisors to be supervised
       # worker(Eloido.Worker, [arg1, arg2, arg3]),
       supervisor(Eloido.Twitter, [Map.new(Application.get_env(:eloido, :twitter))]),
-      supervisor(Eloido.Idobata, []),
+      supervisor(Eloido.Idobata, [Map.new(Application.get_env(:eloido, :idobata))]),
       Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
     ]
 
