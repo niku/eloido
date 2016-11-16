@@ -29,19 +29,10 @@ defmodule Eloido.Twitter.Connection do
   end
 
   defp do_start_stream(%{oauth_token: oauth_token, streaming_parameter: streaming_parameter, hooks: hooks}) do
-    Logger.info("start twitter stream")
     me = self
     hooks = Enum.map(hooks, &Eloido.Twitter.Hook.parse/1)
     Task.start_link(fn ->
-      param = case {streaming_parameter[:follow] || "",
-                    streaming_parameter[:track] || ""} do
-                {"", ""} -> []
-                {"", track} -> [track: track]
-                {follow, ""} -> [follow: follow]
-                {follow, track} -> [track: track, follow: follow]
-              end
-      ExTwitter.configure(:process, oauth_token)
-      for tweet <- ExTwitter.stream_filter(param, :infinity),
+      for tweet <- Eloido.Twitter.Stream.produce(oauth_token, streaming_parameter),
           is_nil(tweet.retweeted_status),
           hook <- hooks,
           Eloido.Twitter.Hook.match_tweet?(hook, tweet) do
