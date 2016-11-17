@@ -40,12 +40,14 @@ defmodule Eloido.Twitter.Hook do
 
   """
   @spec match_tweet?(t, %ExTwitter.Model.Tweet{}) :: boolean()
-  # FIXME: Sort matching condition
-  def match_tweet?(%Eloido.Twitter.Hook{user_ids: @empty_user_ids, query: @empty_query}, _tweet), do: true # All match if default
-  def match_tweet?(%Eloido.Twitter.Hook{user_ids: user_ids, query: @empty_query}, %ExTwitter.Model.Tweet{user: user}), do: conteins_user_id?(user_ids, user)
-  def match_tweet?(%Eloido.Twitter.Hook{user_ids: @empty_user_ids, query: query}, %ExTwitter.Model.Tweet{text: text}), do: match_query?(query, text)
-  def match_tweet?(%Eloido.Twitter.Hook{user_ids: user_ids, query: query}, %ExTwitter.Model.Tweet{user: user, text: text}) do
-    conteins_user_id?(user_ids, user) or match_query?(query, text)
+  def match_tweet?(%Eloido.Twitter.Hook{user_ids: u, query: q}, _tweet) when u === @empty_user_ids and q === @empty_query do
+    # Always match if both values are empty
+    true
+  end
+  def match_tweet?(%Eloido.Twitter.Hook{user_ids: u, query: q}, %ExTwitter.Model.Tweet{user: user}) when q === @empty_query, do: conteins_user_id?(u, user)
+  def match_tweet?(%Eloido.Twitter.Hook{user_ids: u, query: q}, %ExTwitter.Model.Tweet{text: text}) when u === @empty_user_ids, do: match_query?(q, text)
+  def match_tweet?(%Eloido.Twitter.Hook{user_ids: u, query: q}, %ExTwitter.Model.Tweet{user: user, text: text})  do
+    conteins_user_id?(u, user) or match_query?(q, text)
   end
 
   defp conteins_user_id?(user_ids, user), do: Enum.member?(user_ids, user.id_str)
