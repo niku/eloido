@@ -6,13 +6,19 @@ defmodule Eloido do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Eloido.Worker, [arg1, arg2, arg3]),
-      supervisor(Eloido.Twitter, [Map.new(Application.get_env(:eloido, :twitter))]),
-      supervisor(Eloido.Idobata, [Map.new(Application.get_env(:eloido, :idobata))]),
-      Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
-    ]
+    children = case Mix.env do
+                 :test ->
+                   # Do not connect to external servicies on testing environment.
+                   [
+                     Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
+                   ]
+                 env when env in [:dev, :prod] ->
+                   [
+                     supervisor(Eloido.Twitter, [Map.new(Application.get_env(:eloido, :twitter))]),
+                     supervisor(Eloido.Idobata, [Map.new(Application.get_env(:eloido, :idobata))]),
+                     Plug.Adapters.Cowboy.child_spec(:http, Eloido.Router, [], [])
+                   ]
+               end
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
