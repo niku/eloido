@@ -1,4 +1,8 @@
 defmodule Eloido.Twitter do
+  @moduledoc """
+  Callback functions to supervise modules to connect with twitter.
+  """
+
   use Supervisor
 
   def start_link(%{} = config) do

@@ -1,4 +1,8 @@
 defmodule Eloido do
+  @moduledoc """
+  Callback functions to start eloido.
+  """
+
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html

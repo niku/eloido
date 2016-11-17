@@ -1,4 +1,8 @@
 defmodule Eloido.Twitter.Connection do
+  @moduledoc """
+  Callback functions to connect with twitter.
+  """
+
   use GenServer
   require Logger
 

@@ -1,4 +1,8 @@
 defmodule Eloido.Idobata.Connection do
+  @moduledoc """
+  Callback functions to connect with idobata.
+  """
+
   def start_link(%{} = config) do
     channel_name = get_channel_name_from_idobata_seed(config)
 

@@ -1,4 +1,8 @@
 defmodule Eloido.Idobata do
+  @moduledoc """
+  Callback functions to supervise modules to connect with idobata.
+  """
+
   use Supervisor
 
   @idobata_event_manager Eloido.Idobata.EventManager

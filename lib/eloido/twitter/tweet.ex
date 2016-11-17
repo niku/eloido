@@ -1,4 +1,8 @@
 defmodule Eloido.Twitter.Tweet do
+  @moduledoc """
+  Convenience functions for tweeting to twitter.
+  """
+
   require Logger
   use Timex
 

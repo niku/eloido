@@ -1,4 +1,8 @@
 defmodule Eloido.Twitter.Stream do
+  @moduledoc """
+  This module provides a function to produce twitter streaming.
+  """
+
   require Logger
 
   def produce(oauth_token, streaming_parameter) do
