@@ -43,8 +43,7 @@ defmodule Eloido.Idobata.Connection do
 
   def get_channel_name_from_idobata_seed(%{seed_url: seed_url, api_token: api_token, user_agent: user_agent}) do
     %{body: json} = HTTPoison.get!(seed_url, "X-API-Token": api_token, "User-Agent": user_agent)
-    Poison.decode!(json)
-    |> get_in(["records", "bot", "channel_name"])
+    get_in(Poison.decode!(json), ["records", "bot", "channel_name"])
   end
 
   def connect_to_pusher(%{pusher_key: pusher_key, pusher_protocol_version: pusher_protocol_version}) do
@@ -54,7 +53,8 @@ defmodule Eloido.Idobata.Connection do
 
   def extract_socket_id_from_pusher_socket(websocket) do
     {:text, json} = Socket.Web.recv!(websocket)
-    Poison.decode!(json)
+    parsed_json = Poison.decode!(json)
+    parsed_json
     |> Access.get("data")
     |> Poison.decode!
     |> Access.get("socket_id")

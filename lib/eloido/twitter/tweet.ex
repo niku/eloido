@@ -46,7 +46,8 @@ defmodule Eloido.Twitter.Tweet do
   end
 
   def datetime_as_jst(twitter_datetime) do
-    Timex.Parse.DateTime.Parser.parse!(twitter_datetime, "{WDshort} {Mshort} {D} {ISOtime} {Z} {YYYY}")
+    parsed_date = Timex.Parse.DateTime.Parser.parse!(twitter_datetime, "{WDshort} {Mshort} {D} {ISOtime} {Z} {YYYY}")
+    parsed_date
     |> Timex.Timezone.convert(Timex.Timezone.get("Asia/Tokyo"))
     |> Timex.Format.DateTime.Formatter.format!("%Y-%m-%d %T", :strftime)
   end
