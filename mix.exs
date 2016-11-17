@@ -7,6 +7,7 @@ defmodule Eloido.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     aliases: aliases(),
      deps: deps]
   end
 
@@ -38,6 +39,11 @@ defmodule Eloido.Mixfile do
      {:timex, ">= 3.0.0"},
      {:cowboy, "~> 1.0.0"},
      {:plug, "~> 1.0"},
-     {:socket, github: "meh/elixir-socket"}]
+     {:socket, github: "meh/elixir-socket"},
+     {:credo, "~> 0.5", only: [:dev, :test]}]
+  end
+
+  defp aliases do
+    ["test": ["credo", "test"]]
   end
 end
