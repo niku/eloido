@@ -27,7 +27,7 @@ defmodule Eloido.Idobata.Connection do
                 GenEvent.notify(config[:idobata_event_manager], message)
             end
           {:ping, cookie} ->
-            IO.inspect "ping received"
+            IO.puts "ping received"
             Socket.Web.pong!(websocket, cookie)
         end
         f.(f)
