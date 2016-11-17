@@ -13,31 +13,7 @@ defmodule Eloido.Idobata.Connection do
     subscribe_pusher!(websocket, channel_name, auth, channel_data)
 
     Task.start_link(fn ->
-      loop_func = fn f ->
-        case Socket.Web.recv!(websocket) do
-          {:text, json} ->
-            case Poison.decode!(json) do
-              %{"event" => "message_created"} ->
-                # Do Nothing
-                # http://blog.idobata.io/post/115181024997
-                # The message sended from idobata.io is just for a backward compatibility.
-                nil
-              message = %{"data" => data} ->
-                # Recived value on the "data" key is just json string. (double encoded)
-                # see https://pusher.com/docs/pusher_protocol#double-encoding
-                decoded_data = Poison.decode!(data)
-                GenEvent.notify(config[:idobata_event_manager], %{message | "data" => decoded_data})
-              message ->
-                GenEvent.notify(config[:idobata_event_manager], message)
-            end
-          {:ping, cookie} ->
-            IO.puts "ping received"
-            Socket.Web.pong!(websocket, cookie)
-        end
-        f.(f)
-      end
-
-      loop_func.(loop_func)
+      do_loop(config, websocket)
     end)
   end
 
@@ -70,5 +46,30 @@ defmodule Eloido.Idobata.Connection do
     Socket.Web.send!(websocket, {:text, Poison.encode!(%{event: "pusher:subscribe", data: %{channel: channel_name, auth: auth, channel_data: channel_data}})})
     {:text, json} = Socket.Web.recv!(websocket)
     %{"event" => "pusher_internal:subscription_succeeded"} = Poison.decode!(json)
+  end
+
+  defp do_loop(config, websocket) do
+    case Socket.Web.recv!(websocket) do
+      {:text, json} ->
+        case Poison.decode!(json) do
+          %{"event" => "message_created"} ->
+            # Do Nothing
+            # http://blog.idobata.io/post/115181024997
+            # The message sended from idobata.io is just for a backward compatibility.
+            nil
+          message = %{"data" => data} ->
+            # Recived value on the "data" key is just json string. (double encoded)
+            # see https://pusher.com/docs/pusher_protocol#double-encoding
+            decoded_data = Poison.decode!(data)
+            GenEvent.notify(config[:idobata_event_manager], %{message | "data" => decoded_data})
+          message ->
+            GenEvent.notify(config[:idobata_event_manager], message)
+        end
+      {:ping, cookie} ->
+        IO.puts "ping received"
+        Socket.Web.pong!(websocket, cookie)
+    end
+
+    do_loop(config, websocket)
   end
 end
