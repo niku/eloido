@@ -35,7 +35,10 @@ defmodule Eloido.Mixfile do
      {:credo, "~> 0.7", only: [:dev, :test], runtime: false},
      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
      {:cowboy, "~> 1.0"},
-     {:plug, "~> 1.0"}]
+     {:plug, "~> 1.0"},
+     {:hobot, "~> 0.1"},
+     {:hobot_input_twitter_streaming, git: "https://github.com/niku/hobot_input_twitter_streaming"},
+     {:hobot_output_http, git: "https://github.com/niku/hobot_output_http"}]
   end
 
   defp description do
