@@ -1,9 +1,9 @@
 FROM elixir
 MAINTAINER niku
 
-RUN mkdir /myapp
-ADD . /myapp
-WORKDIR /myapp
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
 
 RUN mix local.hex --force && \
     mix deps.get && \

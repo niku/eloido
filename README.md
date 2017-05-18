@@ -1,19 +1,19 @@
 # Eloido
 
-[Egoido](https://github.com/darashi/egoido) implementation by [Elixir](http://elixir-lang.org/).
+**TODO: Add description**
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+by adding `eloido` to your list of dependencies in `mix.exs`:
 
-  1. Add eloido to your list of dependencies in `mix.exs`:
+```elixir
+def deps do
+  [{:eloido, "~> 0.1.0"}]
+end
+```
 
-        def deps do
-          [{:eloido, "~> 0.0.1"}]
-        end
+Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
+and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
+be found at [https://hexdocs.pm/eloido](https://hexdocs.pm/eloido).
 
-  2. Ensure eloido is started before your application:
-
-        def application do
-          [applications: [:eloido]]
-        end
