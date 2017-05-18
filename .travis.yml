@@ -20,6 +20,7 @@ before_install:
   - mkdir -p ~/.hex/
   # You need execution command `travis encrypt-file ~/.hex/hex.config` in the repository and adding generated line following like:
   # - openssl aes-256-cbc -K $encrypted_36030c2fae51_key -iv $encrypted_36030c2fae51_iv -in hex.config.enc -out ~/.hex/hex.config -d
+  - openssl aes-256-cbc -K $encrypted_1308d4ee0388_key -iv $encrypted_1308d4ee0388_iv -in hex.config.enc -out ~/.hex/hex.config -d
 script:
   - mix credo --strict
   # https://github.com/jeremyjh/dialyxir#command-line-options
