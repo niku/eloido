@@ -12,7 +12,12 @@ defmodule Eloido.Application do
     children = [
       # Starts a worker by calling: Eloido.Worker.start_link(arg1, arg2, arg3)
       # worker(Eloido.Worker, [arg1, arg2, arg3]),
-      Plug.Adapters.Cowboy.child_spec(:http, Eloido.HTTPHandler, [], [])
+      Plug.Adapters.Cowboy.child_spec(:http, Eloido.HTTPHandler, [], []),
+      worker(Hobot.Input.TwitterStreaming, [{Eloido.twitter_load_oauth_token,
+                                             Eloido.twitter_load_streaming_param,
+                                             Eloido.twitter_topic}]),
+      worker(Hobot.Output.HTTP, [Eloido.http_topic_map,
+                                 Eloido.http_plugin_options])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
