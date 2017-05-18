@@ -33,7 +33,9 @@ defmodule Eloido.Mixfile do
   defp deps do
     [{:ex_doc, "~> 0.14", only: [:dev, :test], runtime: false},
      {:credo, "~> 0.7", only: [:dev, :test], runtime: false},
-     {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false}]
+     {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+     {:cowboy, "~> 1.0"},
+     {:plug, "~> 1.0"}]
   end
 
   defp description do
