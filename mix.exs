@@ -17,7 +17,7 @@ defmodule Eloido.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger],
+    [extra_applications: [:logger, :eex],
      mod: {Eloido.Application, []}]
   end
 
@@ -38,7 +38,8 @@ defmodule Eloido.Mixfile do
      {:plug, "~> 1.0"},
      {:hobot, "~> 0.1"},
      {:hobot_input_twitter_streaming, git: "https://github.com/niku/hobot_input_twitter_streaming"},
-     {:hobot_output_http, git: "https://github.com/niku/hobot_output_http"}]
+     {:hobot_output_http, git: "https://github.com/niku/hobot_output_http"},
+     {:timex, "~> 3.0"}]
   end
 
   defp description do
