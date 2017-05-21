@@ -12,7 +12,7 @@
   "hackney": {:hex, :hackney, "1.6.1", "ddd22d42db2b50e6a155439c8811b8f6df61a4395de10509714ad2751c6da817", [:rebar3], [{:certifi, "0.4.0", [hex: :certifi, optional: false]}, {:idna, "1.2.0", [hex: :idna, optional: false]}, {:metrics, "1.0.1", [hex: :metrics, optional: false]}, {:mimerl, "1.0.2", [hex: :mimerl, optional: false]}, {:ssl_verify_fun, "1.1.0", [hex: :ssl_verify_fun, optional: false]}]},
   "hobot": {:hex, :hobot, "0.1.2", "b94e8bdd0fb4580afb2a112754184bb065545282e2fba7b6564bd28900f0a9cb", [:mix], []},
   "hobot_input_twitter_streaming": {:git, "https://github.com/niku/hobot_input_twitter_streaming", "81c149a8a9db36a9ac0f24d1fe535fe93fbbe570", []},
-  "hobot_output_http": {:git, "https://github.com/niku/hobot_output_http", "00e29a66d6bb0a2e54a8faa049321d0f8bede941", []},
+  "hobot_output_http": {:git, "https://github.com/niku/hobot_output_http", "2732d00eb487323f11e35451a68c81d584193648", []},
   "httpoison": {:hex, :httpoison, "0.9.1", "6c2b4eaf2588a6f3ef29663d28c992531ca3f0bc832a97e0359bc822978e1c5d", [:mix], [{:hackney, "~> 1.6.0", [hex: :hackney, optional: false]}]},
   "idna": {:hex, :idna, "1.2.0", "ac62ee99da068f43c50dc69acf700e03a62a348360126260e87f2b54eced86b2", [:rebar3], []},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], []},

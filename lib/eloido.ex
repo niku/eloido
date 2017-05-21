@@ -33,8 +33,7 @@ defmodule Eloido do
   end
 
   def http_topic_map do
-    httpc_request = [:post, {'http://httpbin.org/post', [], [], ""}, [], []]
-    %{twitter_topic() => httpc_request}
+    %{twitter_topic() => &build_argument_for_httpc_request/2}
   end
 
   def http_plugin_options do
@@ -43,5 +42,17 @@ defmodule Eloido do
 
   def extract_text_from_tweet(tweet) do
     tweet.text
+  end
+
+  def build_argument_for_httpc_request(topic, data) do
+    method = :post
+    url = 'http://httpbin.org/post'
+    header = []
+    content_type = []
+    body = data
+    request = {url, headers, content_type, body}
+    http_options = []
+    options = []
+    [method, request, http_options, options]
   end
 end
