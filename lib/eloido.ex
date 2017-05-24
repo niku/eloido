@@ -62,7 +62,7 @@ defmodule Eloido do
       user_screen_name: user_screen_name,
       user_profile_image_url: tweet.user.profile_image_url_https,
       tweet_text: tweet.text,
-      user_url: "https://twitter.com/#" <> user_screen_name,
+      user_url: "https://twitter.com/" <> user_screen_name,
       tweet_url: "https://twitter.com/#{user_screen_name}/status/#{tweet_id}",
       tweet_created_at_as_jst: datetime_as_jst(tweet.created_at))
   end
