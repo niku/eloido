@@ -37,8 +37,12 @@ defmodule Eloido do
   end
 
   def http_plugin_options do
-    [filters: [&Eloido.extract_text_from_tweet/1]]
+    [filters: [&Eloido.reject_retweet/1,
+               &Eloido.extract_text_from_tweet/1]]
   end
+
+  def reject_retweet(%{retweeted_status: retweeted_status}) when not is_nil(retweeted_status), do: {:halt, nil}
+  def reject_retweet(tweet), do: {:cont, tweet}
 
   def extract_text_from_tweet(tweet) do
     user_screen_name = tweet.user.screen_name
@@ -57,7 +61,7 @@ defmodule Eloido do
     <a href="<%= tweet_url %>"><%= tweet_created_at_as_jst %></a>
     """
 
-    EEx.eval_string(template,
+    doc = EEx.eval_string(template,
       user_name: tweet.user.name,
       user_screen_name: user_screen_name,
       user_profile_image_url: tweet.user.profile_image_url_https,
@@ -65,6 +69,7 @@ defmodule Eloido do
       user_url: "https://twitter.com/" <> user_screen_name,
       tweet_url: "https://twitter.com/#{user_screen_name}/status/#{tweet_id}",
       tweet_created_at_as_jst: datetime_as_jst(tweet.created_at))
+    {:cont, doc}
   end
 
   def datetime_as_jst(twitter_datetime) do
