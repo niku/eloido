@@ -9,7 +9,9 @@ by adding `eloido` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:eloido, "~> 0.1.0"}]
+  [
+    {:eloido, "~> 0.1.0"}
+  ]
 end
 ```
 

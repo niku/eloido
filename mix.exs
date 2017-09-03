@@ -2,44 +2,35 @@ defmodule Eloido.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :eloido,
-     version: "0.1.0",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     description: description(),
-     package: package()]
+    [
+      app: :eloido,
+      version: "0.1.0",
+      elixir: "~> 1.5",
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+      description: description(),
+      package: package()
+    ]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
+  # Run "mix help compile.app" to learn about applications.
   def application do
-    # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :eex],
-     mod: {Eloido.Application, []}]
+    [
+      extra_applications: [:logger],
+      mod: {Eloido.Application, []}
+    ]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
+  # Run "mix help deps" to learn about dependencies.
   defp deps do
-    [{:ex_doc, "~> 0.14", only: [:dev, :test], runtime: false},
-     {:credo, "~> 0.7", only: [:dev, :test], runtime: false},
-     {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
-     {:cowboy, "~> 1.0"},
-     {:plug, "~> 1.0"},
-     {:hobot, "~> 0.1"},
-     {:hobot_input_twitter_streaming, git: "https://github.com/niku/hobot_input_twitter_streaming"},
-     {:hobot_output_http, git: "https://github.com/niku/hobot_output_http"},
-     {:timex, "~> 3.0"}]
+    [
+      {:ex_doc, "~> 0.16", only: [:dev, :test], runtime: false},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:hobot, "~> 0.2", github: "niku/hobot"},
+      {:hobot_plugin_adapter_twitter_streaming, "~> 0.1", github: "niku/hobot_plugin_adapter_twitter_streaming"},
+      {:hobot_plugin_handler_idobata_webhook, "~> 0.1", github: "niku/hobot_plugin_handler_idobata_webhook"}
+    ]
   end
 
   defp description do

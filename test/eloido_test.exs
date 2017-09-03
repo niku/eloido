@@ -2,7 +2,7 @@ defmodule EloidoTest do
   use ExUnit.Case
   doctest Eloido
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  test "greets the world" do
+    assert Eloido.hello() == :world
   end
 end
