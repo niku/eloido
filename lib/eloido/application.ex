@@ -6,14 +6,17 @@ defmodule Eloido.Application do
   use Application
 
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: Eloido.Worker.start_link(arg)
-      # {Eloido.Worker, arg},
+      {
+        Hobot,
+        [
+          Eloido.bot_name(),
+          Eloido.adapter(),
+          Eloido.handlers()
+        ]
+      }
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Eloido.Supervisor]
     Supervisor.start_link(children, opts)
   end
