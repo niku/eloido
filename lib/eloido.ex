@@ -25,8 +25,16 @@ defmodule Eloido do
       middleware: %{
         before_publish: [fn {:broadcast, "on_message", ref, tweet} ->
                           Logger.debug(inspect tweet)
-                          # TODO: update here
-                          {:ok, {:broadcast, "on_message", ref, tweet.text}}
+                          if tweet.retweeted_status do
+                            # Ignore a retweet.
+                            # See the `retweeted_status` column in the API reference: https://dev.twitter.com/overview/api/tweets
+                            # "Retweets can be distinguished from typical Tweets by the existence of a retweeted_status attribute."
+                            Logger.info("Ignore a retweet. tweet id: #{tweet.id}")
+                            {:halt, :ignore_a_retweet}
+                          else
+                            # TODO: update here
+                            {:ok, {:broadcast, "on_message", ref, tweet.text}}
+                          end
                         end]
       }
     }
