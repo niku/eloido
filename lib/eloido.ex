@@ -3,6 +3,8 @@ defmodule Eloido do
   Documentation for Eloido.
   """
 
+  require Logger
+
   def bot_name, do: "Eloido"
 
   def adapter do
@@ -22,6 +24,7 @@ defmodule Eloido do
       ],
       middleware: %{
         before_publish: [fn {:broadcast, "on_message", ref, tweet} ->
+                          Logger.debug(inspect tweet)
                           # TODO: update here
                           {:ok, {:broadcast, "on_message", ref, tweet.text}}
                         end]
