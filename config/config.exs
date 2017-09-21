@@ -32,7 +32,9 @@ config :hobot_plugin_adapter_twitter_streaming,
   consumer_key: System.get_env("TWITTER_CONSUMER_KEY"),
   consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET"),
   access_token: System.get_env("TWITTER_ACCESS_TOKEN"),
-  access_token_secret: System.get_env("TWITTER_ACCESS_SECRET")
+  access_token_secret: System.get_env("TWITTER_ACCESS_SECRET"),
+  track: System.get_env("TWITTER_TRACK"),
+  follow: System.get_env("TWITTER_FOLLOW")
 
 config :hobot_plugin_handler_idobata_webhook,
   url: System.get_env("IDOBATA_WEBHOOK")

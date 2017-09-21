@@ -16,8 +16,8 @@ defmodule Eloido do
           access_token_secret: Application.get_env(:hobot_plugin_adapter_twitter_streaming, :access_token_secret),
         },
         %{
-          track: "サッポロビーム,sapporobeam,sapporo-beam,sapporo.beam",
-          follow: "507309896,2200321694"
+          track: Application.get_env(:hobot_plugin_adapter_twitter_streaming, :track),
+          follow: Application.get_env(:hobot_plugin_adapter_twitter_streaming, :follow)
         }
       ],
       middleware: %{
