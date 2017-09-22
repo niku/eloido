@@ -27,6 +27,7 @@ defmodule Eloido.Mixfile do
       {:ex_doc, "~> 0.16", only: [:dev, :test], runtime: false},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:timex, "~> 3.1"},
       {:hobot, "~> 0.2", github: "niku/hobot"},
       {:hobot_plugin_adapter_twitter_streaming, "~> 0.1", github: "niku/hobot_plugin_adapter_twitter_streaming"},
       {:hobot_plugin_handler_idobata_webhook, "~> 0.1", github: "niku/hobot_plugin_handler_idobata_webhook"}
